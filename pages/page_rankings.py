@@ -27,7 +27,6 @@ def sidebar_select_competition_and_seasons():
 #
 #    DATA PROCESSOR
 #
-@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
 def get_players_season_rankings(selected_competition_id, selected_season_ids):
 
     # Create Dataframe

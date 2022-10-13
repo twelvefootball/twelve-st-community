@@ -23,7 +23,9 @@ SEASONS_TO_TWELVE_SEASON_ID = {
 
 
 def competitions()->dict:
-
+    """
+        Get All Competitions
+    """
     return {
         8: 'Premier League',
         226: 'Allsvenskan'
@@ -31,20 +33,31 @@ def competitions()->dict:
 
 
 def seasons()->dict:
-
+    """
+        Get All Seasons
+    """
     return {
         2021: 2021,
         2022: 2022
     }
 
 
+@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
 def get_season_players_ratings(competition_id:int, season_ids:[]):
 
     """Get players season rankings"""
     ret = dict()
     for season_id in season_ids:
-        ret[season_id] = app_players_ranking(competition_id, season_id)
+        ret[season_id] = __app_players_ranking(competition_id, season_id)
     return ret
+
+
+@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
+def get_match_points_stories(match_id: int):
+    """
+        Get Match Details
+    """
+    return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}")
 
 
 class StatusCodeException(Exception):
@@ -127,26 +140,24 @@ def __get_task(url: str, data=None) -> dict:
     return resp
 
 
-def get_match_points_stories(match_id: int):
-
-    return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}")
-
 @st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
-def app_get_matches():
+def app_get_matches(competition_id):
 
     matches =  __get_task(f"{TWELVE_API}/vnext2/matches/")
-    matches = [x for x in matches['completed']]
-    return matches
+    matches = [x for x in matches['completed'] if x['competitionId']==competition_id]
+    return matches[0]['matches']
 
 
-def app_players_ranking(competition_id,season_id):
+def __app_players_ranking(competition_id,season_id):
     return __get_task(f"{TWELVE_API}/vnext2/competitions/{competition_id}/seasons/{season_id}/points")
 
 
+@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
 def get_match_shots(match_id: int):
     return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}/shots")
 
 
+@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
 def get_match_passes(match_id: int):
     return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}/passes")
 
