@@ -57,7 +57,15 @@ def get_match_points_stories(match_id: int):
     """
         Get Match Details
     """
-    return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}")
+    return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}/stories")
+
+
+@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
+def get_match_players(match_id: int):
+    """
+        Get Match Details
+    """
+    return __get_task(f"{TWELVE_API}/vnext2/matches/{match_id}/players")
 
 
 class StatusCodeException(Exception):
