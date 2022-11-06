@@ -197,7 +197,20 @@ def get_players_season_minutes(season_id, tournament_id, player_id):
     return __get_task(f"{TWELVE_API}/analytics/tournament/{COMPETITIONS_TO_TWELVE_TOURNAMENT.get(tournament_id)}/season/{SEASONS_TO_TWELVE_SEASON_ID.get(season_id)}/players/{player_id}/minutes")
 
 
+def get_tournament_season_teams(tournament_id: int, season_id: int) -> dict:
+    return __get_task(f"{TWELVE_API}/analysis/competition/{tournament_id}/season/{season_id}/teams")
 
+
+def get_team_matches(tournament_id: int, season_id: int, team_id_list: list) -> dict:
+    return __get_task(f"{TWELVE_API}/analysis/competition/{tournament_id}/season/{season_id}/matches?teamIdList=" +
+                          ",".join(map(str, team_id_list)))
+
+
+@st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
+def get_tournament_season_matches_dict(tournament_id: int, season_id: int) -> dict:
+    season_teams = get_tournament_season_teams(tournament_id, season_id)
+    team_id_list = [team["teamId"] for team in season_teams["teams"]]
+    return get_team_matches(tournament_id, season_id, team_id_list)
 
 
 
