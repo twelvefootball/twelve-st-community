@@ -151,7 +151,7 @@ def __get_task(url: str, data=None) -> dict:
 @st.experimental_memo(ttl=60*60, show_spinner=True) # Caching the results for 60s*60
 def app_get_matches(competition_id):
 
-    matches =  __get_task(f"{TWELVE_API}/vnext2/matches/")
+    matches = __get_task(f"{TWELVE_API}/vnext2/matches/")
     matches = [x for x in matches['completed'] if x['competitionId']==competition_id]
     return matches[0]['matches']
 

@@ -29,7 +29,7 @@ def __create_df_from_stories(twelve_stories):
 
     story_points = []
     for s1 in twelve_stories:
-        if s1['point'] is not None and s1['point']['type'] not in ['press', 'love']:
+        if s1.get('point', None) is not None and s1['point']['type'] is not None and s1['point']['type'] not in ['press', 'love']:
             story_points.append({
                 'player_id': s1['players'][0]['playerId'],
                 'player': s1['players'][0]['name'],
@@ -54,8 +54,9 @@ def __create_df_from_stories(twelve_stories):
     df = pd.DataFrame(story_points)
     return df
 
+
 # Use default settings
-create_default_configs()
+# create_default_configs()
 
 st.header("Match")
 
@@ -89,6 +90,7 @@ with tab_summary:
     st.write(players)
 
 with tab_shots:
+
     shots = twelve.get_match_shots(selected_match_id)
     st.write(shots)
 
