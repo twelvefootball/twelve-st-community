@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 
 # And the root-level secrets are also accessible as environment variables:
@@ -6,6 +8,12 @@ TWELVE_PASSWORD = st.secrets["TWELVE_PASSWORD"]
 TWELVE_API = st.secrets["TWELVE_API"]
 TWELVE_BLOB = st.secrets["TWELVE_BLOB"]
 
+
+# Root directory
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+HOME_TEAM_COLOR = '#59B877'
+AWAY_TEAM_COLOR  = '#FF4B4B'
 
 def create_default_configs():
     st.set_page_config(
