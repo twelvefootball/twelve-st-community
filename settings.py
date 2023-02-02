@@ -15,6 +15,7 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 HOME_TEAM_COLOR = '#59B877'
 AWAY_TEAM_COLOR  = '#FF4B4B'
 
+
 def create_default_configs():
     st.set_page_config(
         page_title="Twelve Community Page",

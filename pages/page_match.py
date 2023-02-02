@@ -7,6 +7,7 @@ import data.twelve_api as twelve
 import pandas as pd
 from settings import create_default_configs, HOME_TEAM_COLOR, AWAY_TEAM_COLOR
 from visuals.match_visuals import XGMatchTrend, XGMatchShots, XGMatchProb, PitchMatchShotmapViz, PitchHorizontalArrows
+from visuals.twelve_visuals import TwelvePitchVisual
 
 
 def sidebar_select_competition():
@@ -180,7 +181,7 @@ selected_match_id = st.sidebar.selectbox("Match", matches_dict, format_func=lamb
 # tab_visuals, tab_summary, tab_shots, tab_passes = st.tabs(['Visuals', 'Summary', 'Shots', 'Passes'])
 
 # Buttons
-selected_sub_nav = st_row_buttons(['Visuals', 'Summary', 'Shots', 'Passes'])
+selected_sub_nav = st_row_buttons(['Visuals', 'Summary', 'Shots', 'Passes','Season Shots'])
 
 if selected_sub_nav == 'Visuals':
 
@@ -236,21 +237,33 @@ elif selected_sub_nav == 'Passes':
     df_passes = df_passes[df_passes['type'].isin(['goalkick'])] #throw-in,pass
     # df = df[df['points'] >= 0]
 
-    viz = PitchHorizontalArrows('AllPlayerRuns',
-                                title=f"Passes",
-                                subtitle="Goalkicks",
-                                provider='opta')
+    viz = TwelvePitchVisual("Match passes", "pass types")
 
     viz.info_text = f"Info text"
 
-    viz.set_data(df_passes['startX'],
+    fig, ax = viz.create_pass_visual(df_passes['startX'],
                  df_passes['startY'],
                  df_passes['endX'],
                  df_passes['endY'],
                  df_passes['points'])
 
-    fig, ax = viz.create_visual(False)
+    st.columns(3)[0].pyplot(fig, dpi=100, facecolor=fig.get_facecolor(), bbox_inches=None)
+
+else:
+    data = twelve.get_season_shots(8, 2022)
+
+    # Convert to dataframe
+    data = pd.DataFrame(data)
+
+    viz = TwelvePitchVisual("Season shots", "xG map")
+
+    viz.info_text = f"Info text"
+
+    fig, ax = viz.create_shot_visual(data['x'],
+                                     data['y'],
+                 data['xg'],
+                 data['shot_outcome'],)
 
     st.columns(3)[0].pyplot(fig, dpi=100, facecolor=fig.get_facecolor(), bbox_inches=None)
 
-
+    st.write(data)
