@@ -44,9 +44,9 @@ if  selected_sub_nav == 'Passes':
     passes = twelve.get_match_passes(selected_match_id)
 
     # Home Team passes
-    df_passes = pd.DataFrame(passes['HomeTeamPasses'])
-    df_passes = df_passes[df_passes['type'].isin(['goalkick'])] #throw-in,pass
-    # df = df[df['points'] >= 0]
+    df_passes = pd.DataFrame(passes['AwayTeamPasses'])
+    df_passes = df_passes[df_passes['type'].isin(['pass'])] #throw-in,pass
+    df_passes = df_passes[df_passes['points'] >= 10.0]
 
     viz = TwelvePitchVisual("Match passes", "pass types")
 
@@ -60,5 +60,5 @@ if  selected_sub_nav == 'Passes':
 
     st.columns(3)[0].pyplot(fig, dpi=100, facecolor=fig.get_facecolor(), bbox_inches=None)
 
-    st.write(passes)
+    st.write(df_passes)
 
