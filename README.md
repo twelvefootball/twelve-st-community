@@ -1,12 +1,12 @@
 
-Twelve Visulisations in Streamlit 
+Twelve Visulisations in Streamlit
 =================================
 
-This is a set of tools for making Twelve visulaisations in Streamlit. We ask that when you use his tool, you acknowledge 
-the usage by leaving the Twelve logo on your visualisations 
+This is a set of tools for making Twelve visulaisations in Streamlit. We ask that when you use his tool, you acknowledge
+the usage by leaving the Twelve logo on your visualisations
 and follow the style as much as possible.
 
-### Instructions 
+### Instructions
 
 This is part of the Soccermatics Pro course. Please see
 
@@ -20,20 +20,20 @@ You should then create a Python environment by first going in to Anaconda and op
 
     conda create --name streamlit_env
     conda activate streamlit_env
-    conda install pip 
+    conda install pip
     pip install -r requirements.txt
 
-Now if you run 
+Now if you run
 
-    streamlit run app.py 
+    streamlit run app.py
 
-The app will appear. 
+The app will appear.
 
 ### Twelve credentials
 
-This Stremalit App won't work unless you have credentials for the Twelve API. We provide this access to people on the Soccermatics Pro course only. If you work for a football club and would like to trial this then please [contact us](mailto:hello@twelve.football). 
+This Streamlit App won't work unless you have credentials for the Twelve API. We provide this access to people on the Soccermatics Pro course only. If you work for a football club and would like to trial this then please [contact us](mailto:hello@twelve.football).
 
-You then need to make a folder called *.stramlit* and a file *secrets.toml* which contains the text
+You then need to make a folder called *.streamlit* and a file *secrets.toml* which contains the text
 
     TWELVE_USERNAME = PROVIDED TO YOU
     TWELVE_PASSWORD = PROVIDED TO YOU
